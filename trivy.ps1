@@ -86,9 +86,8 @@ function Convert-SarifToExcel {
                 $row++
             }
         }
-
-        # Adjust column widths
-        for ($col = 1; $col -le $headers.Length; $col++) {
+		
+		for ($col = 1; $col -le $headers.Length; $col++) {
             $maxLength = 0
             for ($row = 1; $row -le $worksheet.UsedRange.Rows.Count; $row++) {
                 $cellValue = $worksheet.Cells.Item($row, $col).Text
@@ -96,15 +95,10 @@ function Convert-SarifToExcel {
                     $maxLength = $cellValue.Length
                 }
             }
-            try {
-                $worksheet.Columns.Item($col).ColumnWidth = [math]::Min($maxLength + 2, 255)  # Adding a little extra space, max width 255
-            } catch {
-                Write-Warning "Unable to set the ColumnWidth for column $col"
-            }
+            $worksheet.Columns.Item($col).ColumnWidth = $maxLength + 2  # Adding a little extra space
         }
 
         # Save the Excel file in the same directory as the SARIF file
-        $directoryPath = Split-Path -Path $sarifFile -Parent
         $excelFilePath = Join-Path -Path $directoryPath -ChildPath $excelFile
         $workbook.SaveAs($excelFilePath)
         $workbook.Close($false)
@@ -115,7 +109,6 @@ function Convert-SarifToExcel {
         Write-Error "An error occurred: $_"
     }
 }
-
 
 # Ask user for the Excel file name
 $excelFileName = Read-Host "Enter the name for the Excel file (default: $directoryName-report.xlsx)"
