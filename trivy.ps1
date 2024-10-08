@@ -96,7 +96,11 @@ function Convert-SarifToExcel {
                     $maxLength = $cellValue.Length
                 }
             }
-            $worksheet.Columns.Item($col).ColumnWidth = $maxLength + 2  # Adding a little extra space
+            try {
+                $worksheet.Columns.Item($col).ColumnWidth = [math]::Min($maxLength + 2, 255)  # Adding a little extra space, max width 255
+            } catch {
+                Write-Warning "Unable to set the ColumnWidth for column $col"
+            }
         }
 
         # Save the Excel file
@@ -110,6 +114,7 @@ function Convert-SarifToExcel {
         Write-Error "An error occurred: $_"
     }
 }
+
 
 
 # Ask user for the Excel file name
