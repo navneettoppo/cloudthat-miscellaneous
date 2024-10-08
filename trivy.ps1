@@ -103,8 +103,9 @@ function Convert-SarifToExcel {
             }
         }
 
-        # Save the Excel file
-        $excelFilePath = Join-Path -Path (Split-Path -Path $sarifFile -Parent) -ChildPath $excelFile
+        # Save the Excel file in the same directory as the SARIF file
+        $directoryPath = Split-Path -Path $sarifFile -Parent
+        $excelFilePath = Join-Path -Path $directoryPath -ChildPath $excelFile
         $workbook.SaveAs($excelFilePath)
         $workbook.Close($false)
         $excel.Quit()
@@ -114,7 +115,6 @@ function Convert-SarifToExcel {
         Write-Error "An error occurred: $_"
     }
 }
-
 
 
 # Ask user for the Excel file name
