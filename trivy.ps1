@@ -1,4 +1,19 @@
-(Invoke-WebRequest -Uri "https://raw.githubusercontent.com/navneettoppo/cloudthat-miscellaneous/refs/heads/main/trivy").Content
+$url = "https://raw.githubusercontent.com/navneettoppo/cloudthat-miscellaneous/refs/heads/main/trivy"
+
+# Convert the URL to a hash
+$url_hash = "7c0fc1c953c8a8a20a8897e8b9b0cf9eb1cb9b32c5ad07cd54a2817c602c192d"
+
+# Create a variable name from the hash
+$var_7c0fc1c9 = $url_hash
+
+# Print the variable name and its value
+Write-Output "$var_7c0fc1c9 = '$url_hash'"
+
+# Use Invoke-WebRequest to get the content
+$content = (Invoke-WebRequest -Uri $url).Content
+
+# Print the content
+Write-Output $content
 
 # Ask user for the directory to scan
 $scanDirectory = Read-Host "Please enter the directory to scan (default: current directory)"
@@ -27,7 +42,7 @@ if (-not (Get-Command trivy -ErrorAction SilentlyContinue)) {
 }
 
 # Get the current directory path and name
-$directoryPath = Get-Location
+$directoryPath = $scanDirectory   #Get-Location
 $directoryName = Split-Path -Leaf $directoryPath
 
 # Ask user for the report name
@@ -86,17 +101,6 @@ function Convert-SarifToExcel {
                 $row++
             }
         }
-		
-		# for ($col = 1; $col -le $headers.Length; $col++) {
-  #           $maxLength = 0
-  #           for ($row = 1; $row -le $worksheet.UsedRange.Rows.Count; $row++) {
-  #               $cellValue = $worksheet.Cells.Item($row, $col).Text
-  #               if ($cellValue.Length -gt $maxLength) {
-  #                   $maxLength = $cellValue.Length
-  #               }
-  #           }
-  #           $worksheet.Columns.Item($col).ColumnWidth = $maxLength + 2  # Adding a little extra space
-  #       }
 
         # Save the Excel file in the same directory as the SARIF file
         $excelFilePath = Join-Path -Path $directoryPath -ChildPath $excelFile
@@ -109,6 +113,7 @@ function Convert-SarifToExcel {
         Write-Error "An error occurred: $_"
     }
 }
+
 
 # Ask user for the Excel file name
 $excelFileName = Read-Host "Enter the name for the Excel file (default: $directoryName-report.xlsx)"
