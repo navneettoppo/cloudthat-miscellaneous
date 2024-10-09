@@ -1,19 +1,4 @@
-$url = "https://raw.githubusercontent.com/navneettoppo/cloudthat-miscellaneous/refs/heads/main/trivy"
-
-# Convert the URL to a hash
-$url_hash = "7c0fc1c953c8a8a20a8897e8b9b0cf9eb1cb9b32c5ad07cd54a2817c602c192d"
-
-# Create a variable name from the hash
-$var_7c0fc1c9 = $url_hash
-
-# Print the variable name and its value
-Write-Output "$var_7c0fc1c9 = '$url_hash'"
-
-# Use Invoke-WebRequest to get the content
-$content = (Invoke-WebRequest -Uri $url).Content
-
-# Print the content
-Write-Output $content
+(Invoke-WebRequest -Uri "https://raw.githubusercontent.com/navneettoppo/cloudthat-miscellaneous/refs/heads/main/trivy").Content
 
 # Ask user for the directory to scan
 $scanDirectory = Read-Host "Please enter the directory to scan (default: current directory)"
