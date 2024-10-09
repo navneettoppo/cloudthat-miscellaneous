@@ -87,16 +87,16 @@ function Convert-SarifToExcel {
             }
         }
 		
-		for ($col = 1; $col -le $headers.Length; $col++) {
-            $maxLength = 0
-            for ($row = 1; $row -le $worksheet.UsedRange.Rows.Count; $row++) {
-                $cellValue = $worksheet.Cells.Item($row, $col).Text
-                if ($cellValue.Length -gt $maxLength) {
-                    $maxLength = $cellValue.Length
-                }
-            }
-            $worksheet.Columns.Item($col).ColumnWidth = $maxLength + 2  # Adding a little extra space
-        }
+		# for ($col = 1; $col -le $headers.Length; $col++) {
+  #           $maxLength = 0
+  #           for ($row = 1; $row -le $worksheet.UsedRange.Rows.Count; $row++) {
+  #               $cellValue = $worksheet.Cells.Item($row, $col).Text
+  #               if ($cellValue.Length -gt $maxLength) {
+  #                   $maxLength = $cellValue.Length
+  #               }
+  #           }
+  #           $worksheet.Columns.Item($col).ColumnWidth = $maxLength + 2  # Adding a little extra space
+  #       }
 
         # Save the Excel file in the same directory as the SARIF file
         $excelFilePath = Join-Path -Path $directoryPath -ChildPath $excelFile
